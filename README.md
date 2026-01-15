@@ -1,27 +1,38 @@
 # HealthTrack
 
-**HealthTrack** é um sistema de gestão simples para um consultório médico, desenvolvido em **ASP.NET Core MVC** e **Entity Framework Core** com banco de dados SQL Server.
-
-Permite o gerenciamento de:
-
-- Médicos
-- Pacientes
-- Consultas (futuramente)
+HealthTrack é um sistema de gestão de saúde voltado para consultórios médicos de pequeno porte, desenvolvido como um MVP com foco em organização administrativa e boas práticas de desenvolvimento backend em .NET.
+O objetivo do projeto é consolidar fundamentos reais de backend, simulando um sistema utilizado em ambiente profissional, servindo também como projeto de portfólio para entrevistas técnicas.
 
 ## Funcionalidades
 
-✅ Tela de Login com autenticação básica  
-✅ Menu de navegação (Home, Médicos, Pacientes)  
-✅ Listagem de Médicos  
-✅ Listagem de Pacientes  
-✅ Cadastro de Médicos  
-✅ Cadastro de Pacientes  
-✅ Edição e Exclusão de Pacientes e Médicos (em desenvolvimento)  
-✅ Layout responsivo com **Bootstrap 5**
+- Gerenciamento de Médicos
+- Gerenciamento de Pacientes
+- Estrutura preparada para Consultas (em evolução)
+
+### Funcionalidades Implementadas
+
+- Autenticação básica (login simples)
+- Menu de navegação (Home, Médicos, Pacientes)
+- Listagem de Médicos e Pacientes
+- Cadastro de Médicos e Pacientes
+- Layout responsivo com Bootstrap 5
+
+---
+
+### Em Desenvolvimento
+
+- Edição e exclusão de Médicos e Pacientes
+- Tela de Consultas
+- Filtros e pesquisa
+- Relatórios
+- Autenticação com ASP.NET Identity
+- Testes unitários
+
+---
 
 ## Tecnologias Utilizadas
 
-- [.NET 9.0](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+- .NET 9.0
 - ASP.NET Core MVC
 - Entity Framework Core
 - SQL Server
@@ -30,29 +41,27 @@ Permite o gerenciamento de:
 ## Estrutura do Projeto
 
 ```
-/Controllers
-  - AccountController.cs
-  - HomeController.cs
-  - PacienteController.cs
-  - MedicoController.cs
-/Models
-  - Paciente.cs
-  - Medico.cs
-  - Consulta.cs
-/Data
-  - HealthTrackContext.cs
-/Views
-  /Home
-    - Index.cshtml
-  /Paciente
-    - Index.cshtml
-    - Create.cshtml
-    - Edit.cshtml (em construção)
-  /Medico
-    - Index.cshtml
-    - Create.cshtml
-/Views/Shared
-  - _Layout.cshtml
+
+/Controllers  
+- AccountController.cs  
+- HomeController.cs  
+- PacienteController.cs  
+- MedicoController.cs  
+
+/Models  
+- Paciente.cs  
+- Medico.cs  
+- Consulta.cs  
+
+/Data  
+- HealthTrackContext.cs  
+
+/Views  
+- Home  
+- Paciente  
+- Medico  
+- Shared 
+
 ```
 
 ## Como Executar
@@ -100,18 +109,9 @@ http://localhost:5126
 
 ## Observações
 
-- O sistema ainda está em desenvolvimento (MVP).  
-- A autenticação é simples (não usa Identity ainda).  
-- A tela de Consultas será adicionada nas próximas versões.
-
-## To-Do
-
-- [ ] CRUD completo de Médicos e Pacientes  
-- [ ] Tela de Consultas  
-- [ ] Filtros e pesquisa avançada  
-- [ ] Relatórios PDF  
-- [ ] Implementar autenticação com Identity  
-- [ ] Testes unitários
+- Projeto em desenvolvimento contínuo
+- A autenticação atual é simplificada
+- Estrutura pensada para evolução gradual de arquitetura
 
 ## Licença
 
