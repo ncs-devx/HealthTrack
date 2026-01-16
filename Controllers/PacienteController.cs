@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using HealthTrack.Data;
+using HealthTrack.Services;
 using HealthTrack.Models;
 
 namespace HealthTrack.Controllers
@@ -8,16 +8,16 @@ namespace HealthTrack.Controllers
     [Authorize]
     public class PacienteController : Controller
     {
-        private readonly HealthTrackContext _context;
+        private readonly IPacienteService _pacienteService;
 
-        public PacienteController(HealthTrackContext context)
+        public PacienteController(IPacienteService pacienteService)
         {
-            _context = context;
+            _pacienteService = pacienteService;
         }
 
         public IActionResult Index()
         {
-            var pacientes = _context.Pacientes.ToList();
+            var pacientes = _pacienteService.ObterTodos();
             return View(pacientes);
         }
 
@@ -32,8 +32,7 @@ namespace HealthTrack.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Pacientes.Add(paciente);
-                _context.SaveChanges();
+                _pacienteService.Criar(paciente);
                 return RedirectToAction(nameof(Index));
             }
             return View(paciente);
@@ -41,7 +40,7 @@ namespace HealthTrack.Controllers
 
         public IActionResult Edit(int id)
         {
-            var paciente = _context.Pacientes.Find(id);
+            var paciente = _pacienteService.ObterPorId(id);
             if (paciente == null) return NotFound();
 
             return View(paciente);
@@ -53,8 +52,7 @@ namespace HealthTrack.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Pacientes.Update(paciente);
-                _context.SaveChanges();
+                _pacienteService.Atualizar(paciente);
                 return RedirectToAction(nameof(Index));
             }
             return View(paciente);
@@ -62,22 +60,15 @@ namespace HealthTrack.Controllers
 
         public IActionResult Delete(int id)
         {
-            var paciente = _context.Pacientes.Find(id);
-            if (paciente == null) return NotFound();
-
-            return View(paciente);
+            _pacienteService.Excluir(id);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var paciente = _context.Pacientes.Find(id);
-            if (paciente != null)
-            {
-                _context.Pacientes.Remove(paciente);
-                _context.SaveChanges();
-            }
+            _pacienteService.Excluir(id);
             return RedirectToAction(nameof(Index));
         }
     }

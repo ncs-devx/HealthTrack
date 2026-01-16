@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projetos2025\\HealthTrack\\HealthTrack.csproj": {}
+    "C:\\Projetos2025\\CSharp\\HealthTrack\\HealthTrack.csproj": {}
   },
   "projects": {
-    "C:\\Projetos2025\\HealthTrack\\HealthTrack.csproj": {
+    "C:\\Projetos2025\\CSharp\\HealthTrack\\HealthTrack.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projetos2025\\HealthTrack\\HealthTrack.csproj",
+        "projectUniqueName": "C:\\Projetos2025\\CSharp\\HealthTrack\\HealthTrack.csproj",
         "projectName": "HealthTrack",
-        "projectPath": "C:\\Projetos2025\\HealthTrack\\HealthTrack.csproj",
+        "projectPath": "C:\\Projetos2025\\CSharp\\HealthTrack\\HealthTrack.csproj",
         "packagesPath": "C:\\Users\\NCS\\.nuget\\packages\\",
-        "outputPath": "C:\\Projetos2025\\HealthTrack\\obj\\",
+        "outputPath": "C:\\Projetos2025\\CSharp\\HealthTrack\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\NCS\\AppData\\Roaming\\NuGet\\NuGet.Config",
