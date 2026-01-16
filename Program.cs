@@ -1,4 +1,5 @@
 using HealthTrack.Data;
+using HealthTrack.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -11,6 +12,8 @@ builder.Services.AddControllersWithViews();
 // Configurar o DbContext
 builder.Services.AddDbContext<HealthTrackContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IPacienteService, PacienteService>();
 
 // Configurar autenticação com cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
