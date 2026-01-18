@@ -24,6 +24,22 @@ namespace HealthTrack.Services
 
         public void Criar(Paciente paciente)
         {
+
+            if (string.IsNullOrWhiteSpace(paciente.Nome))
+                throw new Exception("O nome do paciente é obrigatório.");
+
+            if (string.IsNullOrWhiteSpace(paciente.CPF))
+                throw new Exception("O CPF é obrigatório.");
+
+            if (paciente.CPF.Length != 11)
+                throw new Exception("CPF inválido.");
+
+            var cpfExiste = _context.Pacientes
+                .Any(p => p.CPF == paciente.CPF && p.Id != paciente.Id);
+
+            if (cpfExiste)
+                throw new Exception("Já existe um paciente cadastrado com este CPF.");
+
             _context.Pacientes.Add(paciente);
             _context.SaveChanges();
         }
