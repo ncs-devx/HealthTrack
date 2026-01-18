@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using HealthTrack.Data;
 using HealthTrack.Models;
+using HealthTrack.Services;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HealthTrack.Controllers
@@ -8,17 +8,17 @@ namespace HealthTrack.Controllers
     [Authorize]
     public class MedicoController : Controller
     {
-        private readonly HealthTrackContext _context;
+        private readonly IMedicoService _medicoService;
 
-        public MedicoController(HealthTrackContext context)
+        public MedicoController(IMedicoService medicoService)
         {
-            _context = context;
+            _medicoService = medicoService;
         }
 
         // Listar médicos
         public IActionResult Index()
         {
-            var medicos = _context.Medicos.ToList();
+            var medicos = _medicoService.ObterTodos();
             return View(medicos);
         }
 
@@ -35,8 +35,7 @@ namespace HealthTrack.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Medicos.Add(medico);
-                _context.SaveChanges();
+                _medicoService.Criar(medico);
                 return RedirectToAction(nameof(Index));
             }
             return View(medico);
@@ -45,8 +44,9 @@ namespace HealthTrack.Controllers
         // Exibir formulário para editar um médico
         public IActionResult Edit(int id)
         {
-            var medico = _context.Medicos.Find(id);
-            if (medico == null) return NotFound();
+            var medico = _medicoService.ObterPorId(id);
+            if (medico == null)
+                return NotFound();
 
             return View(medico);
         }
@@ -58,8 +58,7 @@ namespace HealthTrack.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Medicos.Update(medico);
-                _context.SaveChanges();
+                _medicoService.Atualizar(medico);
                 return RedirectToAction(nameof(Index));
             }
             return View(medico);
@@ -68,8 +67,9 @@ namespace HealthTrack.Controllers
         // Confirmar exclusão de médico
         public IActionResult Delete(int id)
         {
-            var medico = _context.Medicos.Find(id);
-            if (medico == null) return NotFound();
+            var medico = _medicoService.ObterPorId(id);
+            if (medico == null)
+                return NotFound();
 
             return View(medico);
         }
@@ -79,12 +79,7 @@ namespace HealthTrack.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var medico = _context.Medicos.Find(id);
-            if (medico != null)
-            {
-                _context.Medicos.Remove(medico);
-                _context.SaveChanges();
-            }
+            _medicoService.Excluir(id);
             return RedirectToAction(nameof(Index));
         }
     }

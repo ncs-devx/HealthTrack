@@ -14,6 +14,8 @@ builder.Services.AddDbContext<HealthTrackContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IPacienteService, PacienteService>();
+builder.Services.AddScoped<IMedicoService, MedicoService>();
+
 
 // Configurar autenticação com cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
