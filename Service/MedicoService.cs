@@ -24,6 +24,16 @@ namespace HealthTrack.Services
 
         public void Criar(Medico medico)
         {
+
+            if (string.IsNullOrWhiteSpace(medico.Nome) || medico.Nome.Length < 3)
+                throw new Exception("O nome do médico deve ter no mínimo 3 caracteres.");
+
+            if (string.IsNullOrWhiteSpace(medico.CRM))
+                throw new Exception("O CRM é obrigatório.");
+
+            var crmExiste = _context.Medicos.Any(m => m.CRM == medico.CRM);
+            if (crmExiste)
+                throw new Exception("Já existe um médico cadastrado com este CRM.");
             _context.Medicos.Add(medico);
             _context.SaveChanges();
         }

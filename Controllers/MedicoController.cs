@@ -33,35 +33,37 @@ namespace HealthTrack.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Medico medico)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(medico);
+
+            try
             {
                 _medicoService.Criar(medico);
                 return RedirectToAction(nameof(Index));
             }
-            return View(medico);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View(medico);
+            }
         }
 
         // Exibir formulário para editar um médico
-        public IActionResult Edit(int id)
-        {
-            var medico = _medicoService.ObterPorId(id);
-            if (medico == null)
-                return NotFound();
-
-            return View(medico);
-        }
-
-        // Salvar alterações do médico
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Edit(Medico medico)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(medico);
+
+            try
             {
                 _medicoService.Atualizar(medico);
                 return RedirectToAction(nameof(Index));
             }
-            return View(medico);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View(medico);
+            }
         }
 
         // Confirmar exclusão de médico
