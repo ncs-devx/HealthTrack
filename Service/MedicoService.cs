@@ -24,22 +24,26 @@ namespace HealthTrack.Services
 
         public void Criar(Medico medico)
         {
+            ValidarMedico(medico);
 
-            if (string.IsNullOrWhiteSpace(medico.Nome) || medico.Nome.Length < 3)
-                throw new Exception("O nome do médico deve ter no mínimo 3 caracteres.");
-
-            if (string.IsNullOrWhiteSpace(medico.CRM))
-                throw new Exception("O CRM é obrigatório.");
-
-            var crmExiste = _context.Medicos.Any(m => m.CRM == medico.CRM);
+            bool crmExiste = _context.Medicos.Any(m => m.CRM == medico.CRM);
             if (crmExiste)
                 throw new Exception("Já existe um médico cadastrado com este CRM.");
+
             _context.Medicos.Add(medico);
             _context.SaveChanges();
         }
 
         public void Atualizar(Medico medico)
         {
+            ValidarMedico(medico);
+
+            bool crmDuplicado = _context.Medicos.Any(m =>
+                m.CRM == medico.CRM && m.Id != medico.Id);
+
+            if (crmDuplicado)
+                throw new Exception("Já existe outro médico cadastrado com este CRM.");
+
             _context.Medicos.Update(medico);
             _context.SaveChanges();
         }
@@ -52,6 +56,15 @@ namespace HealthTrack.Services
 
             _context.Medicos.Remove(medico);
             _context.SaveChanges();
+        }
+
+        private void ValidarMedico(Medico medico)
+        {
+            if (string.IsNullOrWhiteSpace(medico.Nome))
+                throw new Exception("O nome do médico é obrigatório.");
+
+            if (string.IsNullOrWhiteSpace(medico.CRM))
+                throw new Exception("O CRM é obrigatório.");
         }
     }
 }
