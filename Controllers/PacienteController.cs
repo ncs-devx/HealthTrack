@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using HealthTrack.Services;
 using HealthTrack.Models;
+using HealthTrack.DTOs.Paciente;
 
 namespace HealthTrack.Controllers
 {
@@ -28,34 +29,56 @@ namespace HealthTrack.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Paciente paciente)
+        public IActionResult Create(PacienteCreateDto dto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(dto);
+
+            // 🔁 MAPEAMENTO DTO → MODEL (AQUI)
+            var paciente = new Paciente
             {
-                _pacienteService.Criar(paciente);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(paciente);
+                Nome = dto.Nome,
+                CPF = dto.CPF
+            };
+
+            _pacienteService.Criar(paciente);
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Edit(int id)
         {
             var paciente = _pacienteService.ObterPorId(id);
-            if (paciente == null) return NotFound();
+            if (paciente == null)
+                return NotFound();
 
-            return View(paciente);
+            // 🔁 MODEL → DTO (para preencher a View)
+            var dto = new PacienteEditDto
+            {
+                Id = paciente.Id,
+                Nome = paciente.Nome,
+                CPF = paciente.CPF
+            };
+
+            return View(dto);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Paciente paciente)
+        public IActionResult Edit(PacienteEditDto dto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(dto);
+
+            // 🔁 DTO → MODEL (AQUI)
+            var paciente = new Paciente
             {
-                _pacienteService.Atualizar(paciente);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(paciente);
+                Id = dto.Id,
+                Nome = dto.Nome,
+                CPF = dto.CPF
+            };
+
+            _pacienteService.Atualizar(paciente);
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Delete(int id)
